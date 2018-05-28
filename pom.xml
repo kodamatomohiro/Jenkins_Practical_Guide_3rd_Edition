@@ -61,7 +61,7 @@
     <maven-checkstyle.version>2.10</maven-checkstyle.version>
     
     <!-- Findbugs Properties -->
-    <findbugs-maven.version>3.0.4</findbugs-maven.version>
+    <findbugs-maven.version>3.0.1</findbugs-maven.version>
     
     <!-- JaCoCo Properties -->
     <!-- 
