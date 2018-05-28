@@ -31,7 +31,7 @@
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-      <version>2.4</version>
+      <version>${easymock.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -46,7 +46,7 @@
     <!-- Maven Properties -->
     <maven-compiler.version>3.6.1</maven-compiler.version>
     <maven-site.version>3.6.1</maven-site.version>
-    <maven-surefire-report.version>2.0.5</maven-surefire-report.version>
+    <maven-surefire-report.version>2.20</maven-surefire-report.version>
     <maven-war.version>3.0.0</maven-war.version>
     
     <!-- Web Servlet Properties -->
@@ -55,7 +55,7 @@
     
     <!-- JUnit Properties -->
     <junit.version>4.12</junit.version>
-    <easymock.version>3.4</easymock.version>
+    <easymock.version>2.4</easymock.version>
     
     <!-- Checkstyle Properties -->
     <maven-checkstyle.version>2.10</maven-checkstyle.version>
