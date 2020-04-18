@@ -1,0 +1,143 @@
+<div class="vertical-scroll-table">
+  <table>
+    <div id="headderArea" name="ヘッダーエリア" class="headder-area">
+      &nbsp;&nbsp;&nbsp;
+      <input type="checkbox" id="chkShowAll" value="1" (click)="onClickShowAllCheckbox()"> 全表示（期限制限なし）
+      <button id="btnReset" mat-raised-button style="background-color: lightsalmon ;margin: 10px;"
+        (click)="onClickResetButton()">リセット（デバッグ用）</button>
+      &nbsp;&nbsp;&nbsp;
+      <input type="checkbox" id="chkDBData" value="1" (click)="onClickDBDataCheckbox()"> DBデータ利用
+    </div>
+  </table>
+  <table>
+    <div id="taskCounterArea" name="タスク数表示エリア" class="task-counter-area">
+      &nbsp;&nbsp;&nbsp;
+      <label>
+        Master to Do 数：
+        <input readonly id="masterToDoCounter" type="text">
+      </label>
+      &nbsp;&nbsp;
+      <label>
+        Task to Do 数：
+        <input readonly id="taskToDoCounter" type="text">
+      </label>
+      &nbsp;&nbsp;
+      <label>
+        Notification to Do 数：
+        <input readonly id="notificationToDoCounter" type="text">
+      </label>
+    </div>
+  </table>
+  <!--
+  <table width="100%" border="1" cols="8">
+    <thead>
+      <tr>
+        <th>
+          未読
+        </th>
+        <th>
+          アクション
+        </th>
+        <th>
+          期限
+        </th>
+        <th>
+          プロジェクト名
+        </th>
+        <th>
+          図書名
+        </th>
+        <th>
+          図書番号(社内管理番号)
+        </th>
+        <th>
+          図書ファイル
+        </th>
+        <th>
+
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <adf-search-text-input [collapseOnSubmit]="false" [expandable]="true" [autocomplete]="true"
+            [liveSearchEnabled]="true" (searchChange)="onUnReadSearchChanged($event)" (submit)="onSubmit($event)">
+          </adf-search-text-input>
+        </td>
+        <td>
+          <adf-search-text-input [collapseOnSubmit]="false" [expandable]="true" [autocomplete]="true"
+            [liveSearchEnabled]="true" (searchChange)="onActionSearchChanged($event)" (submit)="onSubmit($event)">
+          </adf-search-text-input>
+        </td>
+        <td>
+          <adf-search-text-input [collapseOnSubmit]="false" [expandable]="true" [autocomplete]="true"
+            [liveSearchEnabled]="true" (searchChange)="onDueAtSearchChanged($event)" (submit)="onSubmit($event)">
+          </adf-search-text-input>
+        </td>
+        <td>
+          <adf-search-text-input [collapseOnSubmit]="false" [expandable]="true" [autocomplete]="true"
+            [liveSearchEnabled]="true" (searchChange)="onProjectNameSearchChanged($event)" (submit)="onSubmit($event)">
+          </adf-search-text-input>
+        </td>
+        <td>
+          <adf-search-text-input [collapseOnSubmit]="false" [expandable]="true" [autocomplete]="true"
+            [liveSearchEnabled]="true" (searchChange)="onDocumentNameSearchChanged($event)" (submit)="onSubmit($event)">
+          </adf-search-text-input>
+        </td>
+        <td>
+          <adf-search-text-input [collapseOnSubmit]="false" [expandable]="true" [autocomplete]="true"
+            [liveSearchEnabled]="true" (searchChange)="onDocNumInternalSearchChanged($event)"
+            (submit)="onSubmit($event)">
+          </adf-search-text-input>
+        </td>
+        <td>
+          <adf-search-text-input [collapseOnSubmit]="false" [expandable]="true" [liveSearchEnabled]="true"
+            (searchChange)="onDocumentFileSearchChanged($event)" (submit)="onSubmit($event)">
+          </adf-search-text-input>
+        </td>
+        <td>
+          ※以下で「プロセス開始」
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  -->
+  <table>
+    <div id="messageArea" name="メッセージエリア">
+      <adf-toolbar class="form-container" [color]="'white'">
+        <label id="operationMessage" name="操作メッセージ"></label>
+      </adf-toolbar>
+    </div>
+    <adf-datatable (rowClick)="onRowClick($event)" [data]="data" [actions]="true" [contextMenu]="true"
+      (showRowActionsMenu)="onShowRowActionsMenu($event)" (executeRowAction)="onExecuteRowAction($event)"
+      (showRowContextMenu)="onShowRowContextMenu($event)">
+      <data-columns>
+        <data-column key="unRead" title="未読">
+        </data-column>
+        <data-column key="action" title="アクション">
+        </data-column>
+        <data-column key="dueAtStatus" title="期限状態">
+          <ng-template let-entry="$implicit">
+            <span *ngIf="entry.data.getValue(entry.row, entry.col) == 'white'"
+              style="background-color: white; width: 100px; height: 30px"></span>
+            <span *ngIf="entry.data.getValue(entry.row, entry.col) == 'yellow'"
+              style="background-color: yellow; width: 100px; height: 30px">期限3日以内</span>
+            <span *ngIf="entry.data.getValue(entry.row, entry.col) == 'pink'"
+              style="background-color: pink; width: 100px; height: 30px">期限切れ</span>
+          </ng-template>
+        </data-column>
+        <data-column key="dueAt" title="期限" type="date">
+        </data-column>
+        <data-column key="projectName" title="プロジェクト名">
+        </data-column>
+        <data-column key="documentName" title="図書名">
+        </data-column>
+        <data-column key="docNumInternal" title="図書番号(社内管理番号)">
+        </data-column>
+        <data-column key="documentFile" title="図書ファイル">
+        </data-column>
+      </data-columns>
+    </adf-datatable>
+  </table>
+</div>

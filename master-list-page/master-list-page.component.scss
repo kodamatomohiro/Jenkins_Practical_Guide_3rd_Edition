@@ -1,0 +1,31 @@
+.headder-area{
+    background-color: lightgreen;
+}
+.task-counter-area{
+    background-color: lightsalmon;
+}
+.vertical-scroll-table{
+	color: #5e5e5e;
+    max-height: 800px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+.vertical-scroll-table table{
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.vertical-scroll-table table thead tr{
+	font-weight: bold;
+	text-align: center;
+	color: white;
+	background-color: #0F6FAA;
+}
+.vertical-scroll-table table tbody tr:nth-child(even){
+	background-color: #fafbfc;
+}
+.vertical-scroll-table table td{
+	width: 12.5%;
+	padding: 0px;
+	border: 1px solid #ddd;
+}
