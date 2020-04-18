@@ -1,0 +1,20 @@
+<div class="vertical-scroll-table">
+  <div id="messageArea" name="メッセージエリア">
+    <adf-toolbar class="form-container" [color]="'white'">
+      <label id="operationMessage" name="操作メッセージ"></label>
+    </adf-toolbar>
+  </div>
+  <div class="accbox">
+    <label for="excelImport">Excel取込（マスタデータ取込）</label>
+    <input type="checkbox" id="excelImport" class="cssacc" />
+    <div class="accshow">
+      <adf-upload-drag-area majorVersion="true" versioning="true" rootFolderId="-shared-"
+        (beginUpload)="onBeginUpload($event)">
+        <div id="drugAndDropArea"
+          style="background-color: whitesmoke; width: 500px; height: 100px; border: 1px solid #888888">
+          マスタデータファイルをドラッグ&ドロップして下さい。
+        </div>
+      </adf-upload-drag-area>
+    </div>
+  </div>
+</div>
