@@ -6,83 +6,23 @@ import { HttpClientService } from '../services/http-client.service';
 
 type AOA = any[][];
 
-export const XLSXClm = {
+export const XLSXProjectListClm = {
   projectNumber: 0,
-  projectName: 1,
-  departInCharge: 2,
-  docNumInternal: 3,
-  documentName: 4,
-  docNumCustomer: 5,
-  docNumVendor: 6,
-  documentClass: 7,
-  wbsNumber: 8,
-  wbsName: 9,
-  personInChargeNum: 10,
-  issueReqCustomer: 11,
-  issueReqVendor: 12,
-  //  initPlan: 13,
-  //  initSchedule: 14,
-  //  intAppPlan: 15,
-  //  intAppSchedule: 16,
-  //  cstSubPlan: 17,
-  //  cstSubSchedule: 18,
-  //  cstAppPlan: 19,
-  //  cstAppSchedule: 20,
-  //  asBuiltPlan: 21,
-  //  asBuiltSchedule: 22
-  issueName1: 13,
-  planDate1: 14,
-  scheduleDate1: 15,
-  issueName2: 16,
-  planDate2: 17,
-  scheduleDate2: 18,
-  issueName3: 19,
-  planDate3: 20,
-  scheduleDate3: 21,
-  issueName4: 22,
-  planDate4: 23,
-  scheduleDate4: 24,
-  issueName5: 25,
-  planDate5: 26,
-  scheduleDate5: 27,
-  issueName6: 28,
-  planDate6: 29,
-  scheduleDate6: 30,
-  issueName7: 31,
-  planDate7: 32,
-  scheduleDate7: 33
+  divisionName: 1,
+  productField: 2
 };
 
-export declare class IssueScheduleExListModel {
-  listId: number;
-  issueName1: string;
-  planDate1: string;
-  scheduleDate1: string;
-  actualDate1: string;
-  issueName2: string;
-  planDate2: string;
-  scheduleDate2: string;
-  actualDate2: string;
-  issueName3: string;
-  planDate3: string;
-  scheduleDate3: string;
-  actualDate3: string;
-  issueName4: string;
-  planDate4: string;
-  scheduleDate4: string;
-  actualDate4: string;
-  issueName5: string;
-  planDate5: string;
-  scheduleDate5: string;
-  actualDate5: string;
-  issueName6: string;
-  planDate6: string;
-  scheduleDate6: string;
-  actualDate6: string;
-  issueName7: string;
-  planDate7: string;
-  scheduleDate7: string;
-  actualDate7: string;
+export const XLSXReviewerListClm = {
+  listId: 0,
+  reviewerId: 1,
+  finalApproverId: 2,
+  reviewerAction: 3,
+  finalApproverAction: 4
+};
+
+export const XLSXDistributionListClm = {
+  listId: 0,
+  distributionDestId: 1
 };
 
 @Component({
@@ -110,18 +50,22 @@ export class MasterSettingPageComponent implements OnInit {
   /// Excel関連
   excelData: AOA = [];
   wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
-  fileName: string = 'MasterList.xlsx';
+  fileName: string = 'MasterData.xlsx';
 
-  // MasterList
-  masterLists = [];
-  // IssueScheduleList
-  //  issueScheduleLists = [];
-  // IssueScheduleExList
-  issueScheduleExLists = [];
+  // ProjectList
+  projectLists: any = [];
+  // ReviewerList
+  reviewerLists: any = [];
+  // DistributionList
+  distributionLists: any = [];
 
   constructor(private httpClientService: HttpClientService) { }
 
   ngOnInit() {
+
+    // ページ初期化
+    this.initPage();
+
   }
 
   // 操作メッセージ表示
@@ -138,6 +82,99 @@ export class MasterSettingPageComponent implements OnInit {
     } else {
       messageArea.setAttribute('style', 'width:0px;height:0px');
     }
+
+  }
+
+  // ページ初期化
+  initPage() {
+
+    // ProjectList情報取得
+    this.getProjectLists();
+    // ReviewerList情報取得
+    this.getReviewerLists();
+    // DistributionList情報取得
+    this.getDistributionLists();
+
+  }
+
+  // ReviewerList情報取得
+  getReviewerLists() {
+
+    // 操作メッセージ表示 初期化
+    this.showOperationMessage("");
+
+    this.httpClientService.get("reviewer_list")
+      .then(
+        (response) => {
+          this.reviewerLists = response;
+        },
+        (error) => {
+          console.error(error);
+          // 操作メッセージ表示
+          this.showOperationMessage("ReviewerListの取得に失敗しました。");
+        }
+      )
+      .catch(
+        (error) => {
+          console.error(error);
+          // 操作メッセージ表示
+          this.showOperationMessage("ReviewerListの取得に失敗しました。");
+        }
+      );
+
+  }
+
+  // DistributionList情報取得
+  getDistributionLists() {
+
+    // 操作メッセージ表示 初期化
+    this.showOperationMessage("");
+
+    this.httpClientService.get("distribution_list")
+      .then(
+        (response) => {
+          this.distributionLists = response;
+        },
+        (error) => {
+          console.error(error);
+          // 操作メッセージ表示
+          this.showOperationMessage("DistributionListの取得に失敗しました。");
+        }
+      )
+      .catch(
+        (error) => {
+          console.error(error);
+          // 操作メッセージ表示
+          this.showOperationMessage("DistributionListの取得に失敗しました。");
+        }
+      );
+
+  }
+
+  // ProjectList情報取得
+  getProjectLists() {
+
+    // 操作メッセージ表示 初期化
+    this.showOperationMessage("");
+
+    this.httpClientService.get("project_list")
+      .then(
+        (response) => {
+          this.projectLists = response;
+        },
+        (error) => {
+          console.error(error);
+          // 操作メッセージ表示
+          this.showOperationMessage("ProjectListの取得に失敗しました。");
+        }
+      )
+      .catch(
+        (error) => {
+          console.error(error);
+          // 操作メッセージ表示
+          this.showOperationMessage("ProjectListの取得に失敗しました。");
+        }
+      );
 
   }
 
@@ -164,8 +201,6 @@ export class MasterSettingPageComponent implements OnInit {
   executeExcelImport(evt: any) {
 
     // File reader
-    //  const target: DataTransfer = <DataTransfer>(evt.target);
-    //  if (target.files.length !== 1) throw new Error('Cannot use multiple files');
     if (evt.files.length !== 1) throw new Error('Cannot use multiple files');
     const reader: FileReader = new FileReader();
     reader.onload = (e: any) => {
@@ -173,18 +208,17 @@ export class MasterSettingPageComponent implements OnInit {
       const bstr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
 
-      // Frst sheet 読み込み
-      const wsname: string = wb.SheetNames[0];
-      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+      for (let cnt = 0; cnt < wb.SheetNames.length; cnt++) {
+        // Frst sheet 読み込み
+        const wsname: string = wb.SheetNames[cnt];
+        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      // Excelデータ 格納
-      this.excelData = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
+        // Excelデータ 格納
+        this.excelData = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1, raw: false }));
 
-      // Excelデータ表示
-      //      this.showExcelData();
-
-      // 表示データ(ShowData)登録実行
-      //      this.executeRegister();
+        // Upsert実行
+        this.executeUpsert(wsname);
+      }
 
     };
     //    reader.readAsBinaryString(target.files[0]);
@@ -192,29 +226,254 @@ export class MasterSettingPageComponent implements OnInit {
 
   }
 
-  // IssueScheduleExList情報取得
-  getIssueScheduleExLists() {
+  // Upsert実行
+  executeUpsert(wsname: string) {
 
-    // 操作メッセージ表示 初期化
-    this.showOperationMessage("");
+    if (wsname === "ProjectList") {
+      for (let cnt = 1; cnt < this.excelData.length; cnt++) {
+        let rowData = this.excelData[cnt];
+        const body: any = {
+          projectnumber: rowData[XLSXProjectListClm.projectNumber],
+          divisionname: rowData[XLSXProjectListClm.divisionName],
+          productfield: rowData[XLSXProjectListClm.productField]
+        };
+        if (-1 !== this.projectLists.findIndex((ent) =>
+          ((ent.projectnumber === rowData[XLSXProjectListClm.projectNumber]) &&
+            (ent.divisionname === rowData[XLSXProjectListClm.divisionName]) &&
+            (ent.docNumInternal === rowData[XLSXProjectListClm.productField])))) {
+          // 既に登録済みなら更新
+          this.updateProjectList(this.projectLists.listid, body);
+        } else {
+          // 未登録なら登録
+          this.registProjectList(body);
+        }
+      }
+    } else if (wsname === "ReviewerList") {
+      for (let cnt = 1; cnt < this.excelData.length; cnt++) {
+        let rowData = this.excelData[cnt];
+        const body: any = {
+          listid: rowData[XLSXReviewerListClm.listId],
+          reviewerid: rowData[XLSXReviewerListClm.reviewerId],
+          finalapproverid: rowData[XLSXReviewerListClm.finalApproverId],
+          revieweraction: rowData[XLSXReviewerListClm.reviewerAction],
+          finalapproveraction: rowData[XLSXReviewerListClm.finalApproverAction]
+        };
+        if (-1 !== this.reviewerLists.findIndex((ent) =>
+          (ent.listid === rowData[XLSXReviewerListClm.listId]))) {
+          // 既に登録済みなら更新
+          this.updateReviewerList(this.reviewerLists.id, body);
+        } else {
+          // 未登録なら登録
+          this.registReviewerList(body);
+        }
+      }
+    } else if (wsname === "DistributionList") {
+      for (let cnt = 1; cnt < this.excelData.length; cnt++) {
+        let rowData = this.excelData[cnt];
+        const body: any = {
+          listid: rowData[XLSXDistributionListClm.listId],
+          distributiondestid: rowData[XLSXDistributionListClm.distributionDestId]
+        };
+        if (-1 !== this.distributionLists.findIndex((ent) =>
+          (ent.listid === rowData[XLSXDistributionListClm.listId]))) {
+          // 既に登録済みなら更新
+          this.updateDistributionList(this.distributionLists.id, body);
+        } else {
+          // 未登録なら登録
+          this.registDistributionList(body);
+        }
+      }
+    }
 
-    this.httpClientService.get("issue_schedule_ex_list")
+  }
+
+  // ProjectList更新
+  updateProjectList(listId: number, body: any) {
+
+    this.httpClientService.update(listId, "listid", "project_list", body)
       .then(
         (response) => {
-          this.issueScheduleExLists = response;
-          this.messageInfoList = this.param.messages;
+          console.debug(response);
+          // 操作メッセージ表示
+          this.showOperationMessage("ProjectListの更新に成功しました。");
         },
         (error) => {
           console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
           // 操作メッセージ表示
-          this.showOperationMessage("IssueScheduleExListの取得に失敗しました。");
+          this.showOperationMessage("ProjectListの更新に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
         }
       )
       .catch(
         (error) => {
           console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
           // 操作メッセージ表示
-          this.showOperationMessage("IssueScheduleExListの取得に失敗しました。");
+          this.showOperationMessage("ProjectListの更新に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      );
+
+  }
+
+  // ReviewerList更新
+  updateReviewerList(id: number, body: any) {
+
+    this.httpClientService.update(id, "id", "reviewer_list", body)
+      .then(
+        (response) => {
+          console.debug(response);
+          // 操作メッセージ表示
+          this.showOperationMessage("ReviewerListの更新に成功しました。");
+        },
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("ReviewerListの更新に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      )
+      .catch(
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("ReviewerListの更新に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      );
+
+  }
+
+  // DistributionList更新
+  updateDistributionList(id: number, body: any) {
+
+    this.httpClientService.update(id, "id", "distribution_list", body)
+      .then(
+        (response) => {
+          console.debug(response);
+          // 操作メッセージ表示
+          this.showOperationMessage("DistributionListの更新に成功しました。");
+        },
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("DistributionListの更新に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      )
+      .catch(
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("DistributionListの更新に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      );
+
+  }
+
+  // ProjectList登録
+  registProjectList(body: any) {
+
+    this.httpClientService.register("project_list", body)
+      .then(
+        (response) => {
+          console.debug(response);
+          // 操作メッセージ表示
+          this.showOperationMessage("ProjectListの登録に成功しました。");
+        },
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("ProjectListの登録に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      )
+      .catch(
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("ProjectListの登録に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      );
+
+  }
+
+  // ReviewerList登録
+  registReviewerList(body: any) {
+
+    this.httpClientService.register("reviewer_list", body)
+      .then(
+        (response) => {
+          console.debug(response);
+          // 操作メッセージ表示
+          this.showOperationMessage("ReviewerListの登録に成功しました。");
+        },
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("ReviewerListの登録に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      )
+      .catch(
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("ReviewerListの登録に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      );
+
+  }
+
+  // DistributionList登録
+  registDistributionList(body: any) {
+
+    this.httpClientService.register("distribution_list", body)
+      .then(
+        (response) => {
+          console.debug(response);
+          // 操作メッセージ表示
+          this.showOperationMessage("DistributionListの登録に成功しました。");
+        },
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("DistributionListの登録に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
+        }
+      )
+      .catch(
+        (error) => {
+          console.error(error);
+          let errorArray = error.split(' ');
+          let errorStatus = errorArray[errorArray.length - 2];
+          let errorStatusText = errorArray[errorArray.length - 1];
+          // 操作メッセージ表示
+          this.showOperationMessage("DistributionListの登録に失敗しました。(" + errorStatus + ":" + errorStatusText + ")");
         }
       );
 
